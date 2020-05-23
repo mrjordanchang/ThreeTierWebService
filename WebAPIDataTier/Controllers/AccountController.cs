@@ -10,8 +10,6 @@ namespace WebAPIDataTier.Controllers
 {
     public class AccountController : ApiController
     {
-        BankClass bank;
-
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
@@ -39,15 +37,14 @@ namespace WebAPIDataTier.Controllers
         {
         }
 
-        [Route("api/Account/{accountID}")]
+        [Route("api/Account/{accountID}/{userID}")]
         [HttpGet]
-        public AccountClass GetAccountDetails(uint accountID)
+        public AccountClass GetAccountDetails(uint accountID, uint userID)
         {
-            bank = BankClass.Instance;
             return new AccountClass()
             {
                 id = accountID,
-                userID = 100
+                userID = userID
             };
         }
     }

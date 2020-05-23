@@ -10,20 +10,22 @@ namespace WebAPIDataTier.Controllers
 {
     public class TransactionController : ApiController
     {
-        BankClass bank;
-
         // GET api/<controller>
+
+        private static BankDB.BankDB myBank = BankClass.bankDB;
+        private BankDB.TransactionAccessInterface trans;
+
         public IEnumerable<string> Get()
         {
-            bank = BankClass.Instance;
+            
             return new string[] { "value1", "value2" };
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        /*public string Get(int id)
         {
             return "value";
-        }
+        }*/
 
         // POST api/<controller>
         public void Post([FromBody]string value)
@@ -38,6 +40,20 @@ namespace WebAPIDataTier.Controllers
         // DELETE api/<controller>/5
         public void Delete(int id)
         {
+        }
+
+        [Route("api/Transaction/{sID}/{rID}/{amount}")]
+        [HttpGet] 
+        public void MakeTransaction(uint sID,uint rID, uint amount)
+        {
+            trans = myBank.GetTransactionInterface();
+            uint transID = trans.CreateTransaction();
+            trans.SelectTransaction(transID);
+            trans.SetSendr(sID);
+            trans.SetRecvr(rID);
+            trans.SetAmount(amount);
+            myBank.ProcessAllTransactions();
+            myBank.SaveToDisk();
         }
     }
 }
