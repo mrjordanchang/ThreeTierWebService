@@ -13,7 +13,7 @@ namespace WebAPIDataTier.Controllers
         // GET api/<controller>
 
         private static BankDB.BankDB myBank = BankClass.bankDB;
-        private BankDB.TransactionAccessInterface trans;
+        private BankDB.TransactionAccessInterface trans = myBank.GetTransactionInterface();
 
         public IEnumerable<string> Get()
         {
